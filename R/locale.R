@@ -1,5 +1,6 @@
 
 get_locale <- function(locale){
+  if(is.null(locale)) return()
   # locale <- "es-CO"
   # locale <- "es-BO"
   in_available_locales <- locale %in% makeup::available_locales

@@ -1,19 +1,25 @@
 
-
-makeup_dat <- function(v, format = NULL, locale = NULL){
-  if(!lubridate::is.Date(v)) stop("must be a Date")
-  locale <- locale %||% guess_date_locale(format)
-  locale <- locale %||% "en-US"
-  if(is.null(format)){
-    date_fmt <- format %||% get_locale(locale)$date
-  }else{
-    date_fmt <- guess_date_format(format, locale)
+#' @export
+makeup_dat <- function(v, sample = NULL, locale = NULL, format = NULL){
+  if(!lubridate::is.Date(v)){
+    v <- lubridate::as_date(v)
   }
+  if(!is.null(format)){
+    return(format_date(v, format))
+  } else if (is.null(sample) && is.null(locale)){
+    return(format_date(v, NULL))
+  } else if(!is.null(sample) && is.null(locale)){
+    locale <- guess_date_locale(sample)
+    date_fmt <- guess_date_fmt(sample, locale)
+    return(format_date(v, date_fmt, locale = locale))
+  }
+  date_fmt <- get_locale(locale)$date
   format_date(v, date_fmt = date_fmt, locale = locale)
 }
 
 
 format_date <- function(v, date_fmt, locale = NULL){
+  date_fmt <- date_fmt %||% "%-m/%-d/%Y"
   fallback <- which_locale_sys_fallback(locale)
   locale <- gsub("-","_",fallback %||% locale)
   locale <- locale %||% "en_US"
@@ -34,18 +40,18 @@ d3date2lubridate <- function(date_fmt, marker = '###'){
   gsub("%-d",paste0(marker,"%d"),date_fmt)
 }
 
-guess_date_format <- function(format, locale = "en-US"){
+guess_date_fmt <- function(sample, locale = NULL){
   fallback <- which_locale_sys_fallback(locale)
-  locale <- gsub("-","_",fallback %||% locale)
+  locale <- gsub("-","_",fallback %||% locale) %||% "en_US"
   format_orders <- c("ymd", "mdY", "dmy", "BdY", "Bdy","dBY","dbY", "bdY", "bdy",
                      "Bd","bd", "dB","db")
-  fmts <- lubridate::guess_formats(format, format_orders, locale = locale)
+  fmts <- lubridate::guess_formats(sample, format_orders, locale = locale)
   fmts[1]
 }
 
-guess_date_locale <- function(format){
+guess_date_locale <- function(sample){
   stopwords <- c("th","de")
-  string <- gsub(paste0("[^a-zA-Z]|",paste0(stopwords,collapse = "|")),"", format)
+  string <- gsub(paste0("[^a-zA-Z]|",paste0(stopwords,collapse = "|")),"", sample)
   if(is.empty(string)) return()
   months <- makeup::locale_month_names
   guess <- months$locale[months$months %in% c(string, tolower(string))]

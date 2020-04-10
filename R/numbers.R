@@ -1,13 +1,13 @@
 
-makeup_num <- function(v, format = NULL, locale = NULL){
-  params <- which_num_format(format) %||% list(specifier = ",")
+#' @export
+makeup_num <- function(v, sample = NULL, locale = NULL, format = NULL){
+  params <- which_num_format(sample) %||% list(specifier = ",")
   if(is.character(locale)){
     locale <- get_locale(locale)[c("decimal", "thousands")]
-
   }
   locale <- modifyList(params$separators %||% list(), locale %||% list())
   # locale <- locale[c("decimal", "thousands")]
-  f <- d3.format(params$specifier, locale = locale)
+  f <- d3.format::d3.format(params$specifier, locale = locale)
   f(v)
 }
 

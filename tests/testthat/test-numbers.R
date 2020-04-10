@@ -14,7 +14,8 @@ test_that("Format numbers", {
   expect_true(is_si_num("40µ"))
   expect_equal(makeup_num(0.0001, "10k"),"100µ")
   expect_equal(makeup_num(10e-5, "10k"),"100µ")
-
+  # OJO
+  # expect_equal(makeup_num(1234.56, "10k"),"1.2k")
 
 
   expect_equal(number_separators("1234.56"),
@@ -36,14 +37,14 @@ test_that("Format numbers", {
   expect_equal(makeup_num(1234.56, locale = "es-ES"), "1.234,56")
 
 
-  format <- "1 234.56"
-  expect_equal(makeup_num(1234.56, format = format), format)
-  format <- "1 234.56"
-  expect_equal(makeup_num(1234.56, format = format), format)
-  format <- "1234.56"
-  expect_equal(makeup_num(1234.56, format = format), format)
-  format <- "1'234,56"
-  expect_equal(makeup_num(1234.56, format = format), format)
+  sample <- "1 234.56"
+  expect_equal(makeup_num(1234.56, sample = sample), sample)
+  sample <- "1 234.56"
+  expect_equal(makeup_num(1234.56, sample = sample), sample)
+  sample <- "1234.56"
+  expect_equal(makeup_num(1234.56, sample = sample), sample)
+  sample <- "1'234,56"
+  expect_equal(makeup_num(1234.56, sample = sample), sample)
   # TODO implement millions separators
   # format <- "1'000,234.56"
   # expect_equal(makeup_num(1000234.56, format = format), format) # "1,000,234.56"
