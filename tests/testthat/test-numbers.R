@@ -37,6 +37,9 @@ test_that("Format numbers", {
   expect_equal(makeup_num(1234.56, locale = "es-ES"), "1.234,56")
 
 
+  # sample <- "1,234."
+  # expect_equal(makeup_num(1234.56, sample = sample), sample)
+
   sample <- "1 234.56"
   expect_equal(makeup_num(1234.56, sample = sample), sample)
   sample <- "1 234.56"

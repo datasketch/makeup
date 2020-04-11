@@ -8,8 +8,12 @@ test_that("Guess date formats", {
   expect_equivalent(guess_date_fmt(sample, locale = "pt-BR"),"%d %B %Y")
   sample <- "24 de enero de 2010"
   expect_equivalent(guess_date_fmt(sample, locale = "es-CO"), "%d de %B de %Y")
+  sample <- "Abr 4"
+  expect_equivalent(guess_date_fmt(sample), "%b %d")
+  expect_equivalent(guess_date_fmt(sample, locale = "es-CO"), "%b %d")
 
   expect_equal(guess_date_locale("Junio 4 de 2011"),"es-ES")
+  # expect_equal(guess_date_locale("Ago 3"),"es-ES")
 
 })
 
@@ -37,11 +41,16 @@ test_that("dates", {
   # Guess locale from month name PT
   expect_equal(makeup_dat(v, sample = "Janeiro 4"), "Março 04")
   # Guess locale from month name ES
-  expect_equal(makeup_dat(v, sample = "Junio 4 2011"), "marzo 04 2020")
+  expect_equal(makeup_dat(v, sample = "Junio 4 2011"), "Marzo 04 2020")
   # Guess locale from month name
   expect_equal(makeup_dat(v, sample = "4 de junio de 2011"), "04 de marzo de 2020")
   ## TODO keep consistency with caps in Months
   ## TODO remove leading 0 for single digit days and months
+
+  # expect_equal(makeup_dat(v, sample = "Ene 3", locale = "es-CO"), "Mar 4")
+  expect_equal(makeup_dat(v, sample = "Ene 3", locale = "es-CO"), "Mar 04")
+
+
 
   # sample = NULL
   # format = NULL

@@ -15,5 +15,9 @@ test_that("makeup", {
   makeup(x, sample = "Title phrase")
   makeup(x, sample = "Title Case")
 
+  f <- makeup_format(sample = "3 de abril 1900")
+  f(as.Date("2020-04-28"))
+  f <- makeup_format(sample = "abril 3 1900", type = "dat")
+  f("2020-04-28")
 
 })

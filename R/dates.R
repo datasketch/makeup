@@ -8,10 +8,12 @@ makeup_dat <- function(v, sample = NULL, locale = NULL, format = NULL){
     return(format_date(v, format))
   } else if (is.null(sample) && is.null(locale)){
     return(format_date(v, NULL))
-  } else if(!is.null(sample) && is.null(locale)){
-    locale <- guess_date_locale(sample)
+  } else if(!is.null(sample)){
+  # } else if(!is.null(sample) && is.null(locale)){
+    locale <- locale %||% guess_date_locale(sample)
     date_fmt <- guess_date_fmt(sample, locale)
-    return(format_date(v, date_fmt, locale = locale))
+    out <- format_date(v, date_fmt, locale = locale)
+    return(match_caps(out, sample))
   }
   date_fmt <- get_locale(locale)$date
   format_date(v, date_fmt = date_fmt, locale = locale)
@@ -41,6 +43,7 @@ d3date2lubridate <- function(date_fmt, marker = '###'){
 }
 
 guess_date_fmt <- function(sample, locale = NULL){
+  locale <- locale %||% guess_date_locale(sample)
   fallback <- which_locale_sys_fallback(locale)
   locale <- gsub("-","_",fallback %||% locale) %||% "en_US"
   format_orders <- c("ymd", "mdY", "dmy", "BdY", "Bdy","dBY","dbY", "bdY", "bdy",
@@ -53,8 +56,11 @@ guess_date_locale <- function(sample){
   stopwords <- c("th","de")
   string <- gsub(paste0("[^a-zA-Z]|",paste0(stopwords,collapse = "|")),"", sample)
   if(is.empty(string)) return()
-  months <- makeup::locale_month_names
-  guess <- months$locale[months$months %in% c(string, tolower(string))]
+  months <- makeup:::locale_month_names
+  months_match <- grepl(string,months$months, ignore.case = TRUE)
+  # short_months_match <- grepl(string,months$shortMonths, ignore.case = TRUE)
+  # months_match <- months_match | short_months_match
+  guess <- months$locale[months_match]
   if(is.empty(guess)) return()
   guess[1]
 }

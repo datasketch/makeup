@@ -9,7 +9,7 @@ test_that("Fallbacks work", {
 
 
   # Fallback works
-  expect_false("es-CO" %in% makeup::available_locales)
+  expect_false("es-CO" %in% makeup:::available_locales)
   expect_equal(get_locale("es-CO"),  get_locale("es-MX"))
 
 
@@ -17,21 +17,21 @@ test_that("Fallbacks work", {
   # Bolivia exists but doesn't have the date local info
   # Should auto-complete
   locale <- "es-BO"
-  expect_true("es-BO" %in% makeup::available_locales)
+  expect_true("es-BO" %in% makeup:::available_locales)
   bo <- get_locale("es-BO")
-  expect_null(makeup::locales[["es-BO"]]$date)
+  expect_null(makeup:::locales[["es-BO"]]$date)
   expect_equal(bo$currency, c("Bs\u00a0", ""))
   mx <- get_locale("es-MX")
   expect_equal(bo$dateTime, mx$dateTime)
 
 
-  expect_equal(get_locale("es-ES"),removeNulls(makeup::locales[["es-ES"]]))
-  expect_equal(get_locale("es-MX"),removeNulls(makeup::locales[["es-MX"]]))
+  expect_equal(get_locale("es-ES"),removeNulls(makeup:::locales[["es-ES"]]))
+  expect_equal(get_locale("es-MX"),removeNulls(makeup:::locales[["es-MX"]]))
 
   # Without fallback
   # OJO... need to removeNulls
-  expect_equal(get_locale("zh-CN"), removeNulls(makeup::locales[["zh-CN"]]))
+  expect_equal(get_locale("zh-CN"), removeNulls(makeup:::locales[["zh-CN"]]))
 
-  expect_equal(get_locale("en-US"), removeNulls(makeup::locales[["en-US"]]))
+  expect_equal(get_locale("en-US"), removeNulls(makeup:::locales[["en-US"]]))
 
 })
