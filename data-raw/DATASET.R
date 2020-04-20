@@ -23,8 +23,8 @@ locales <- modifyList(locs_num, locs_dtm)
 
 locales_table <- locales %>%
   unlist(recursive = FALSE) %>%
-  enframe() %>%
-  separate(name, c("locale","variable"), sep = "\\.") %>%
+  tibble::enframe() %>%
+  tidyr::separate(name, c("locale","variable"), sep = "\\.") %>%
   pivot_wider(names_from = "variable") %>%
   mutate(lang = substr(locale,1,2)) %>%
   select(lang, everything())
@@ -54,6 +54,7 @@ locale_month_names <- locales_table %>%
   unnest(cols = c(months, shortMonths))
 
 
+
 # grepl("^(?!.*(?:ES|MX))(?=.*(?:es))","es-CO", perl = TRUE)
 # grepl("^(?!.*(?:ES|MX))(?=.*(?:es))","es-MX", perl = TRUE)
 # grepl("^(?!.*(?:ES|MX))(?=.*(?:es))","es-ES", perl = TRUE)
@@ -61,7 +62,7 @@ locale_month_names <- locales_table %>%
 
 usethis::use_data(available_locales, locales,
                   fallbacks, sys_fallbacks,
-                  locale_month_names,
+                  locale_month_names, locale_summary,
                   internal = TRUE, overwrite = TRUE)
 
 
