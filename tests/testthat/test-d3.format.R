@@ -1,6 +1,7 @@
 test_that("d3.format works with locale",{
   library(d3.format)
   custom_locale <- list(
+    n_decimal = 4,
     decimal = ",",
     thousands = "|"
   )
