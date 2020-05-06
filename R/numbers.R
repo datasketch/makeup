@@ -17,7 +17,7 @@ which_num_format <- function(str){
   separators <- number_separators(str)
   specifier <- ","
   if(is_pct(str)) specifier <- ".0%"
-  if(is_si_num(str)) specifier <- ".2s"
+  if(is_si_num(str)) specifier <- paste0(".",separators$n_decimal,"s")
   list(
     specifier = specifier,
     separators = separators
