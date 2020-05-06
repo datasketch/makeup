@@ -33,7 +33,6 @@ is_si_num <- function(str){
 
 
 number_separators <- function(str){
-
   seps <- gsub("[0-9]", "", str)
   seps_chr <- strsplit(seps, "")[[1]]
   num_blocks <- strsplit(str, "[^0-9]")[[1]]
@@ -42,7 +41,7 @@ number_separators <- function(str){
   has_many_sep <- length(seps_chr) > 1
   has_decimal_or_at_most_two_blks <- length(num_blocks) <= 2
   all_blocks_size_at_most_3 <- all(length(num_blocks)<=3)
-  n_possible_decimals <- ifelse(length(num_blocks) == 2, 0, nchar(rev(num_blocks)[1]))
+  n_possible_decimals <- ifelse(length(num_blocks) < 2, 0, nchar(rev(num_blocks)[1]))
 
   if(has_one_sep && has_decimal_or_at_most_two_blks){
     thousands <- ""

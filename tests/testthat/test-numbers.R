@@ -19,7 +19,7 @@ test_that("Format numbers", {
 
 
   expect_equal(number_separators("1234.56"),
-               list(n_decimal = 0, decimal = ".", thousands = ""))
+               list(n_decimal = 2, decimal = ".", thousands = ""))
   expect_equal(number_separators("1'234,56"),
                list(n_decimal = 2, decimal = ",", thousands = "'"))
   expect_equal(number_separators("1234"),
