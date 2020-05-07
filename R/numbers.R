@@ -2,6 +2,10 @@
 #' @export
 makeup_num <- function(v, sample = NULL, locale = NULL, format = NULL){
   params <- which_num_format(sample) %||% list(specifier = ",")
+  if (!params$specifier %in% c(".0%", ".2s") & !is.null(params$separators)) {
+    v <- round(v, params$separators$n_decimal)
+  }
+
   if(is.character(locale)){
     locale <- get_locale(locale)[c("decimal", "thousands")]
   }
@@ -17,7 +21,7 @@ which_num_format <- function(str){
   separators <- number_separators(str)
   specifier <- ","
   if(is_pct(str)) specifier <- ".0%"
-  if(is_si_num(str)) specifier <- paste0(".",separators$n_decimal,"s")
+  if(is_si_num(str)) specifier <- ".2s"
   list(
     specifier = specifier,
     separators = separators
