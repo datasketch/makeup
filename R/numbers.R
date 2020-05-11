@@ -45,11 +45,14 @@ number_separators <- function(str){
   has_many_sep <- length(seps_chr) > 1
   has_decimal_or_at_most_two_blks <- length(num_blocks) <= 2
   all_blocks_size_at_most_3 <- all(length(num_blocks)<=3)
+
   n_possible_decimals <- ifelse(length(num_blocks) < 2, 0, nchar(rev(num_blocks)[1]))
+  if (is.na(num_blocks[3])) n_possible_decimals <- 0
 
   if(has_one_sep && has_decimal_or_at_most_two_blks){
     thousands <- ""
     decimal <- seps_chr %||% ""
+    n_possible_decimals <- ifelse(length(num_blocks) < 2, 0, nchar(rev(num_blocks)[1]))
   }
   if(has_many_sep || !all_blocks_size_at_most_3){
     thousands <- rev(seps_chr)[2]
