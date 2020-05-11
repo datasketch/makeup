@@ -1,7 +1,7 @@
 
 #' @export
 makeup_chr <- function(v, sample = NULL, format = NULL){
-  if(is.null(sample)){
+  if(!is.null(format)){
     available_formats <- c("title","upper","lower","firstupper")
     if(!format %in% formats)
       stop("format must be one of: ", paste(formats, collapse = ", "))
@@ -12,6 +12,7 @@ makeup_chr <- function(v, sample = NULL, format = NULL){
 }
 
 match_caps <- function(str, sample){
+  if(is.null(sample)) return(str)
   if(is_lower(sample)) return(tolower(str))
   if(is_upper(sample)) return(toupper(str))
   if(is_title(sample)) return(totitle(str))
