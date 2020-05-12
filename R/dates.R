@@ -65,18 +65,20 @@ guess_date_fmt <- function(sample, locale = NULL){
   format_orders <- c("ymd", "mdY", "dmy", "BdY", "Bdy","dBY","dbY", "bdY", "bdy",
                      "Bd","bd", "dB","db")
   fmts <- try(lubridate::guess_formats(sample, format_orders, locale = locale), silent = TRUE)
-  if(inherits(fmts, "try-error"))
+  if(inherits(fmts, "try-error")){
     fmts <- try(lubridate::guess_formats(sample, format_orders, locale = locale), silent = TRUE)
-  fmts <- try(lubridate::guess_formats(sample, format_orders, locale = paste0(locale,".utf8")), silent = TRUE)
+    fmts <- try(lubridate::guess_formats(sample, format_orders, locale = paste0(locale,".utf8")), silent = TRUE)
 
-  locale_error_cmd <- paste0("sudo locale-gen ", locale,
-                             " ; sudo locale-gen ",locale,".UTF-8 ; sudo update-locale",
-                             "\n or the following for all country variations:\n",
-                             "sudo apt-get install language-pack-", substr(locale,1,2)
-  )
-  if(inherits(fmts, "try-error")) stop("Error in guess_date_fmt. ", fmts, "\n",
-                                       "If you are on linux try running: \n",
-                                       locale_error_cmd)
+    locale_error_cmd <- paste0("sudo locale-gen ", locale,
+                               " ; sudo locale-gen ",locale,".UTF-8 ; sudo update-locale",
+                               "\n or the following for all country variations:\n",
+                               "sudo apt-get install language-pack-", substr(locale,1,2)
+    )
+    if(inherits(fmts, "try-error")) stop("Error in guess_date_fmt. ", fmts, "\n",
+                                         "If you are on linux try running: \n",
+                                         locale_error_cmd)
+
+  }
   fmts[1]
 }
 
