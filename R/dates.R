@@ -9,7 +9,7 @@ makeup_dat <- function(v, sample = NULL, locale = NULL, format = NULL){
   } else if (is.null(sample) && is.null(locale)){
     return(format_date(v, NULL))
   } else if(!is.null(sample)){
-  # } else if(!is.null(sample) && is.null(locale)){
+    # } else if(!is.null(sample) && is.null(locale)){
     locale <- locale %||% guess_date_locale(sample)
     date_fmt <- guess_date_fmt(sample, locale)
     out <- format_date(v, date_fmt, locale = locale)
@@ -28,14 +28,30 @@ format_date <- function(v, date_fmt, locale = NULL){
   {
     old_lc_time <- Sys.getlocale("LC_TIME")
     if (old_lc_time != locale) {
-      on.exit(Sys.setlocale("LC_TIME", old_lc_time))
-      Sys.setlocale("LC_TIME", locale)
+      on.exit({Sys.setlocale("LC_TIME", old_lc_time)})
+      #Sys.setlocale("LC_TIME", locale)
+      trySetLocale(locale)
     }
   }
   date_fmt <- d3date2lubridate(date_fmt)
   formatted <- format( v, format = date_fmt)
   gsub("###","",gsub("###0","",formatted))
 }
+
+trySetLocale <- function(locale){
+  setloc <- suppressWarnings(tryCatch(
+    Sys.setlocale("LC_TIME", locale),error=function(e) e, warning=function(w) w))
+  if(inherits(setloc, "warning"))
+    setloc <- suppressWarnings(tryCatch(Sys.setlocale("LC_TIME", paste0(locale,".utf8")), silent = TRUE))
+  locale_error_cmd <- paste0("sudo locale-gen ", locale,
+                             " ; sudo locale-gen ",locale,".UTF-8 ; sudo update-locale",
+                             "\n or the following for all country variations:\n",
+                             "sudo apt-get install language-pack-", substr(locale,1,2))
+  if(inherits(setloc, "warning")) stop("Error in guess_date_fmt. ", setloc, "\n",
+                                         "If you are on linux try running: \n",
+                                         locale_error_cmd)
+}
+
 
 d3date2lubridate <- function(date_fmt, marker = '###'){
   date_fmt <- gsub("%-m",paste0(marker,"%m"),date_fmt)
@@ -48,7 +64,19 @@ guess_date_fmt <- function(sample, locale = NULL){
   locale <- gsub("-","_",fallback %||% locale) %||% "en_US"
   format_orders <- c("ymd", "mdY", "dmy", "BdY", "Bdy","dBY","dbY", "bdY", "bdy",
                      "Bd","bd", "dB","db")
-  fmts <- lubridate::guess_formats(sample, format_orders, locale = locale)
+  fmts <- try(lubridate::guess_formats(sample, format_orders, locale = locale), silent = TRUE)
+  if(inherits(fmts, "try-error"))
+    fmts <- try(lubridate::guess_formats(sample, format_orders, locale = locale), silent = TRUE)
+  fmts <- try(lubridate::guess_formats(sample, format_orders, locale = paste0(locale,".utf8")), silent = TRUE)
+
+  locale_error_cmd <- paste0("sudo locale-gen ", locale,
+                             " ; sudo locale-gen ",locale,".UTF-8 ; sudo update-locale",
+                             "\n or the following for all country variations:\n",
+                             "sudo apt-get install language-pack-", substr(locale,1,2)
+  )
+  if(inherits(fmts, "try-error")) stop("Error in guess_date_fmt. ", fmts, "\n",
+                                       "If you are on linux try running: \n",
+                                       locale_error_cmd)
   fmts[1]
 }
 

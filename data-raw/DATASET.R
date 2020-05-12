@@ -46,12 +46,21 @@ sys_fallbacks <- list(
   "ar-EG" = "ar-*",
   "es-ES" = "es-*",
   "de-DE" = "de-*",
-  "fr-FR" = "fr-*"
+  "fr-FR" = "fr-*",
+  "en-US" = "en-CA"
 )
 
+high_weights <- c("en-US", "es-ES")
 locale_month_names <- locales_table %>%
   select(locale, months, shortMonths) %>%
-  unnest(cols = c(months, shortMonths))
+  unnest(cols = c(months, shortMonths)) %>%
+  ungroup() %>%
+  group_by(locale) %>%
+  mutate(month_order = 1:n()) %>%
+  ungroup() %>%
+  mutate(weight = ifelse(locale %in% high_weights, 2, 1)) %>%
+  arrange(desc(weight))
+
 
 
 

@@ -3,6 +3,8 @@ test_that("Guess date formats", {
   library(lubridate)
 
   sample <- "June 24th 2010"
+
+  expect_error(guess_date_fmt(sample, locale = "ru_XX"))
   expect_equivalent(guess_date_fmt(sample),"%B %dth %Y")
   sample <- "24 janeiro 2010"
   expect_equivalent(guess_date_fmt(sample, locale = "pt-BR"),"%d %B %Y")
@@ -60,9 +62,6 @@ test_that("dates", {
   expect_equal(makeup_dat(v, locale = "de-DE"), "04.03.2020")
   # TODO trim single-digit
   expect_equal(makeup_dat(v, locale = "es-US"), "04/03/2020")
-
-
-
 
 
 })
