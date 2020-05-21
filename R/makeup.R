@@ -1,7 +1,7 @@
 
 #' @export
 makeup <- function(v, sample = NULL, format = NULL, locale = NULL,
-                   type = c("num","dat","chr")){
+                   type = c("num","dat","chr"), suffix = "", prefix = ""){
   if(lubridate::is.Date(v) || type == "dat"){
     return(makeup_dat(v, sample = sample, locale = locale, format = format))
   }
@@ -9,17 +9,17 @@ makeup <- function(v, sample = NULL, format = NULL, locale = NULL,
     return(makeup_chr(v, sample = sample, format = format))
   }
   if(is.numeric(v) || type == "num"){
-    return(makeup_num(v, sample = sample, locale = locale, format = format))
+    return(makeup_num(v, sample = sample, locale = locale, format = format, suffix = suffix, prefix = prefix))
   }
 
 }
 
 #' @export
 makeup_format <- function(sample = NULL, format = NULL, locale = NULL,
-                          type = ""){
+                          type = "", suffix = "", prefix = ""){
   function(x){
     makeup(x, type = type,
-           sample = sample, format = format, locale = locale)
+           sample = sample, format = format, locale = locale, suffix = suffix, prefix = prefix)
   }
 }
 

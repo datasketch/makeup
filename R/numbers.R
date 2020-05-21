@@ -1,6 +1,6 @@
 
 #' @export
-makeup_num <- function(v, sample = NULL, locale = NULL, format = NULL){
+makeup_num <- function(v, sample = NULL, locale = NULL, format = NULL, prefix = "", suffix = ""){
   params <- which_num_format(sample) %||% list(specifier = ",")
   if (!params$specifier %in% c(".0%", ".2s") & !is.null(params$separators)) {
     v <- round(v, params$separators$n_decimal)
@@ -11,7 +11,7 @@ makeup_num <- function(v, sample = NULL, locale = NULL, format = NULL){
   }
   locale <- modifyList(params$separators %||% list(), locale %||% list())
   # locale <- locale[c("decimal", "thousands")]
-  f <- d3.format::d3.format(params$specifier, locale = locale)
+  f <- d3.format::d3.format(params$specifier, locale = locale, prefix = prefix, suffix = suffix)
   f(v)
 }
 
