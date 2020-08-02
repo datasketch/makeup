@@ -58,6 +58,7 @@ d3date2lubridate <- function(date_fmt, marker = '###'){
   gsub("%-d",paste0(marker,"%d"),date_fmt)
 }
 
+#' @export
 guess_date_fmt <- function(sample, locale = NULL){
   locale <- locale %||% guess_date_locale(sample)
   fallback <- which_locale_sys_fallback(locale)
