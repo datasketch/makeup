@@ -19,7 +19,7 @@ test_that("Guess date formats", {
 
 })
 
-test_that("Format datse",{
+test_that("Format dates",{
 
   format_date(as.Date("2001-03-31"), "%Y__%m>>%d")
 
@@ -63,5 +63,8 @@ test_that("dates", {
   # TODO trim single-digit
   expect_equal(makeup_dat(v, locale = "es-US"), "04/03/2020")
 
+  expect_equal(makeup_dat(v, locale = "es-CO", format = "%B %d %Y"), "marzo 04 2020")
+  expect_equal(makeup_dat(v, locale = "de-CH", format = "%B %d %Y"), "März 04 2020")
+  expect_equal(makeup_dat(v, locale = "ru-RU", format = "%B %d %Y"), "марта 04 2020")
 
 })

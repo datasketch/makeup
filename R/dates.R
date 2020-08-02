@@ -5,7 +5,7 @@ makeup_dat <- function(v, sample = NULL, locale = NULL, format = NULL){
     v <- lubridate::as_date(v)
   }
   if(!is.null(format)){
-    return(format_date(v, format))
+    return(format_date(v, format, locale = locale))
   } else if (is.null(sample) && is.null(locale)){
     return(format_date(v, NULL))
   } else if(!is.null(sample)){
@@ -59,6 +59,7 @@ d3date2lubridate <- function(date_fmt, marker = '###'){
 }
 
 guess_date_fmt <- function(sample, locale = NULL){
+  # message("guess_date_fmt")
   locale <- locale %||% guess_date_locale(sample)
   fallback <- which_locale_sys_fallback(locale)
   locale <- gsub("-","_",fallback %||% locale) %||% "en_US"
