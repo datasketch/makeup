@@ -7,9 +7,20 @@ library(hgchmagic)
 
 dat <- homodatum:::Dat("04/21?2020?")
 makeup(as.Date(dat), locale = "de-DE")
+makeup(as.Date(dat), locale = "ru-RU")
+
+#Sys.setlocale("LC_ALL", locale = "ru_RU.UTF-8")
+#Sys.setlocale("LC_ALL", locale = "russian")
+#Sys.setlocale("LC_CTYPE", locale = "russian")
+
+Sys.setlocale("LC_ALL", "C")
+
+makeup::guess_date_fmt("2020-05-21", locale = "ru-RU")
+makeup::guess_date_fmt("2020-05-21", locale = "es-ES")
 
 ui <- fluidPage(
-  selectInput("locale", "Locale", choices = c("en-US", "es-ES","de-DE", "ru-RU")),
+
+  selectInput("locale", "Locale", choices = c("ru-RU","en-US", "es-ES","de-DE")),
   dateInput("date", "Some date", value = "2020-04-21"),
   verbatimTextOutput("formatted_date"),
   textInput("custom_date", "Some date", value = "04/21?2020?"),
