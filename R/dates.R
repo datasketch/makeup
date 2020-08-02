@@ -25,12 +25,16 @@ format_date <- function(v, date_fmt, locale = NULL){
   fallback <- which_locale_sys_fallback(locale)
   locale <- gsub("-","_",fallback %||% locale)
   locale <- locale %||% "en_US"
+  if(Sys.info()[['sysname']] == "Linux"){
+    locale <- paste0(locale,".UTF-8")
+  }
   {
     old_lc_time <- Sys.getlocale("LC_TIME")
     if (old_lc_time != locale) {
       on.exit({Sys.setlocale("LC_TIME", old_lc_time)})
       #Sys.setlocale("LC_TIME", locale)
       trySetLocale(locale)
+      Sys.getlocale("LC_TIME")
     }
   }
   date_fmt <- d3date2lubridate(date_fmt)
@@ -44,7 +48,7 @@ trySetLocale <- function(locale){
   if(inherits(setloc, "warning"))
     setloc <- suppressWarnings(tryCatch(Sys.setlocale("LC_TIME", paste0(locale,".utf8")), silent = TRUE))
   locale_error_cmd <- paste0("sudo locale-gen ", locale,
-                             " ; sudo locale-gen ",locale,".UTF-8 ; sudo update-locale",
+                             " ; sudo locale-gen ",locale,"; sudo update-locale",
                              "\n or the following for all country variations:\n",
                              "sudo apt-get install language-pack-", substr(locale,1,2))
   if(inherits(setloc, "warning")) stop("Error in guess_date_fmt. ", setloc, "\n",

@@ -21,7 +21,16 @@ test_that("Guess date formats", {
 
 test_that("Format dates",{
 
+  if(Sys.info()[['sysname']] == "Linux"){
+    Sys.setlocale("LC_TIME", "en_US.UTF-8")
+  }
+  Sys.getlocale("LC_TIME")
+
   format_date(as.Date("2001-03-31"), "%Y__%m>>%d")
+
+  format_date(as.Date("2020-03-21"), "%B %d", locale = "pt-BR")
+  format_date(as.Date("2020-03-21"), "%B %d", locale = "de-DE")
+  format_date(as.Date("2020-03-21"), "%B %d", locale = "ru-RU")
 
 })
 
@@ -64,7 +73,7 @@ test_that("dates", {
   expect_equal(makeup_dat(v, locale = "es-US"), "04/03/2020")
 
   expect_equal(makeup_dat(v, locale = "es-CO", format = "%B %d %Y"), "marzo 04 2020")
-  expect_equal(makeup_dat(v, locale = "de-CH", format = "%B %d %Y"), "März 04 2020")
-  expect_equal(makeup_dat(v, locale = "ru-RU", format = "%B %d %Y"), "марта 04 2020")
+  expect_equal(makeup_dat(v, locale = "de-DE", format = "%B %d %Y"), "März 04 2020")
+  # expect_equal(makeup_dat(v, locale = "ru-RU", format = "%B %d %Y"), "марта 04 2020")
 
 })
