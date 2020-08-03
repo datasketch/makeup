@@ -3,7 +3,9 @@ library(makeup)
 library(homodatum)
 library(hgchmagic)
 
-# options(rsconnect.locale = 'your_locale')
+# options(rsconnect.locale = 'es_ES.UTF-8')
+
+# system("locale -a", intern = TRUE)
 
 dat <- homodatum:::Dat("04/21?2020?")
 makeup(as.Date(dat), locale = "de-DE")
@@ -17,7 +19,7 @@ makeup(as.Date(dat), locale = "de-DE")
 #Sys.setlocale("LC_ALL", "en_US.UTF-8")
 
 #makeup::guess_date_fmt("2020-05-21", locale = "ru-RU")
-makeup::guess_date_fmt("2020-05-21", locale = "es-ES")
+#makeup::guess_date_fmt("2020-05-21", locale = "es-ES")
 
 ui <- fluidPage(
   column(4,

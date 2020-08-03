@@ -20,11 +20,14 @@ makeup_dat <- function(v, sample = NULL, locale = NULL, format = NULL){
 }
 
 
+
 format_date <- function(v, date_fmt, locale = NULL){
+  original_locale <- locale
   date_fmt <- date_fmt %||% "%-m/%-d/%Y"
   fallback <- which_locale_sys_fallback(locale)
   locale <- gsub("-","_",fallback %||% locale)
   locale <- locale %||% "en_US"
+  locale_attempt <- locale
   if(Sys.info()[['sysname']] == "Linux"){
     locale <- paste0(locale,".UTF-8")
   }
@@ -33,13 +36,22 @@ format_date <- function(v, date_fmt, locale = NULL){
     if (old_lc_time != locale) {
       on.exit({Sys.setlocale("LC_TIME", old_lc_time)})
       #Sys.setlocale("LC_TIME", locale)
-      trySetLocale(locale)
-      Sys.getlocale("LC_TIME")
+      locale_attempt <- trySetLocale(locale)
     }
   }
   date_fmt <- d3date2lubridate(date_fmt)
   formatted <- format( v, format = date_fmt)
-  gsub("###","",gsub("###0","",formatted))
+  fmttd <- gsub("###","",gsub("###0","",formatted))
+
+  # If the locale is not available in the machine, try the EN default
+  # and rename months
+  if(gsub("\\.UTF-8","", locale_attempt) != gsub("\\.UTF-8","",locale) &&
+     grepl("B|b", date_fmt)){
+    lang <- substr(original_locale,1,5)
+    type <- ifelse(grepl("B", date_fmt), "longMonths", "shortMonths")
+    fmttd <- rename_months(fmttd, lang, type)
+  }
+  fmttd
 }
 
 trySetLocale <- function(locale){
@@ -54,6 +66,7 @@ trySetLocale <- function(locale){
   if(inherits(setloc, "warning")) stop("Error in guess_date_fmt. ", setloc, "\n",
                                          "If you are on linux try running: \n",
                                          locale_error_cmd)
+  Sys.getlocale("LC_TIME")
 }
 
 
@@ -64,7 +77,7 @@ d3date2lubridate <- function(date_fmt, marker = '###'){
 
 #' @export
 guess_date_fmt <- function(sample, locale = NULL){
-  # message("guess_date_fmt")
+  message("guess_date_fmt")
   locale <- locale %||% guess_date_locale(sample)
   fallback <- which_locale_sys_fallback(locale)
   locale <- gsub("-","_",fallback %||% locale) %||% "en_US"
@@ -100,6 +113,27 @@ guess_date_locale <- function(sample){
   if(is.empty(guess)) return()
   guess[1]
 }
+
+rename_months <- function(fmttd, lang, type){
+  months <- makeup:::locale_month_names
+  ms <- months %>% dplyr::filter(locale == lang)
+  ms_en <- months %>% dplyr::filter(locale == "en-US")
+  x <- tibble::tibble(to = ms$months, from = ms_en$months)
+  if(type == "shortMonths"){
+    x$from <- ms_en$shortMonths
+    x$to <- ms$shortMonths
+  }
+  x <- purrr::transpose(x)
+  unlist(lapply(fmttd, function(fm){
+    unlist(lapply(x, function(m){
+      if(grepl(m$from, fm))
+        return(gsub(m$from, m$to, fm))
+    }))
+  }))
+
+}
+
+
 
 
 makeup_dat_stamp <- function(v, format = NULL, locale = NULL){

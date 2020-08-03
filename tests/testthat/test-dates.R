@@ -32,6 +32,18 @@ test_that("Format dates",{
   format_date(as.Date("2020-03-21"), "%B %d", locale = "de-DE")
   format_date(as.Date("2020-03-21"), "%B %d", locale = "ru-RU")
 
+  v <- as.Date(c("2020-03-04","2019-10-21"))
+  date_fmt <- "%Y %B !!!"
+  locale <- "ru-RU"
+  x <- format_date(v, date_fmt = date_fmt)
+  x
+  format_date(as.Date("2020-03-21"), "%B %d", locale = "ru-RU")
+
+  expect_equal(rename_months(c("10 March", "September!!"), "ru-RU", "longMonths"),
+               c("10 марта", "сентября!!"))
+  expect_equal(rename_months(c("10 Apr", "Sep!!"), "es-ES", "shortMonths"),
+               c("10 abr", "sep!!"))
+
 })
 
 
