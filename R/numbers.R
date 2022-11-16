@@ -1,7 +1,25 @@
 
+#' @title makeup_num
+#'
+#' @description Formats numbers values for human use
+#'
+#' @param v value to be formatted
+#' @param sample human format to apply in v value
+#' @param locale locale to use, for example "es-MX" for mexican. See posible values at available_locales
+#' @param format ??
+#' @param prefix Character string to append before formatted value
+#' @param suffix string to append after formatted value
+#'
+#' @return a formatted character value
+#'
+#' @examples
+#'  makeup_num(c(0.1, 0.5), "100%")
+#'
 #' @export
 makeup_num <- function(v, sample = NULL, locale = NULL, format = NULL, prefix = "", suffix = ""){
+
   params <- which_num_format(sample) %||% list(specifier = ",")
+
   if (!params$specifier %in% c(".0%", ".2s") & !is.null(params$separators)) {
     v <- round(v, params$separators$n_decimal)
   }
@@ -9,12 +27,31 @@ makeup_num <- function(v, sample = NULL, locale = NULL, format = NULL, prefix = 
   if(is.character(locale)){
     locale <- get_locale(locale)[c("decimal", "thousands")]
   }
-  locale <- modifyList(params$separators %||% list(), locale %||% list())
+
+  locale <- utils::modifyList(params$separators %||% list(), locale %||% list())
   # locale <- locale[c("decimal", "thousands")]
   f <- d3.format::d3.format(params$specifier, locale = locale, prefix = prefix, suffix = suffix)
   f(v)
 }
 
+#' @title which_num_format
+#' @description Recognizes decimal values and decimal / thopusands separators. Also adds a specifier
+#'
+#' @param str A number as a character value
+#'
+#' @return a list with four values: number of decimal values, decimal and thousands separator and specifier value.  The output has the following properties:
+#'
+#' $n_decimal
+#'
+#' $specifier
+#'
+#' $decimal
+#'
+#' $thousands
+#'
+#' @examples
+#' which_num_format("2135.3")
+#'
 #' @export
 which_num_format <- function(str){
   if(is.null(str)) return()
@@ -31,8 +68,10 @@ which_num_format <- function(str){
 is_pct <- function(str) grepl(".%$", str)
 
 is_si_num <- function(str){
-  si_suffixes <- "yzafpnµmkMGTPEZY"
-  grepl(paste0(".[",si_suffixes,"]$"), str)
+  si_suffixes <- paste0("yzafpn", "\u00B5", "mkMGTPEZY")
+
+  grepl(pattern = paste0(".[", si_suffixes, "]$"),
+        x = str)
 }
 
 

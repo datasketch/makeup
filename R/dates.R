@@ -1,5 +1,21 @@
 
+#' @title makeup_dat
+#'
+#' @description Formats dates values for human use
+#'
+#' @param v value to be formatted
+#' @param sample human format to apply in v value
+#' @param locale locale to use, for example "es-MX" for mexican. See posible values at makeup::available_locales
+#' @param format ??
+#'
+#' @return a formatted character value
 #' @export
+#'
+#' @examples
+#'
+#'   v <- as.Date("2020-03-04")
+#'   makeup_dat(v, sample = "Ene 3", locale = "es-CO")
+#'
 makeup_dat <- function(v, sample = NULL, locale = NULL, format = NULL){
   if(!lubridate::is.Date(v)){
     v <- lubridate::as_date(v)
@@ -75,6 +91,17 @@ d3date2lubridate <- function(date_fmt, marker = '###'){
   gsub("%-d",paste0(marker,"%d"),date_fmt)
 }
 
+
+
+
+#' @title guess_date_fmt
+#'
+#' @description guesses date format structure for a given sample
+#'
+#' @param sample character value with a human date format
+#'
+#' @param locale ??
+#'
 #' @export
 guess_date_fmt <- function(sample, locale = NULL){
   message("guess_date_fmt")
@@ -105,7 +132,7 @@ guess_date_locale <- function(sample){
   stopwords <- c("th","de")
   string <- gsub(paste0("[^a-zA-Z]|",paste0(stopwords,collapse = "|")),"", sample)
   if(is.empty(string)) return()
-  months <- makeup:::locale_month_names
+  months <- locale_month_names
   months_match <- grepl(string,months$months, ignore.case = TRUE)
   # short_months_match <- grepl(string,months$shortMonths, ignore.case = TRUE)
   # months_match <- months_match | short_months_match
@@ -115,9 +142,9 @@ guess_date_locale <- function(sample){
 }
 
 rename_months <- function(fmttd, lang, type){
-  months <- makeup:::locale_month_names
-  ms <- months %>% dplyr::filter(locale == lang)
-  ms_en <- months %>% dplyr::filter(locale == "en-US")
+  months <- locale_month_names
+  ms <- months |> dplyr::filter(.data$locale == lang)
+  ms_en <- months |>  dplyr::filter(.data$locale == "en-US")
   x <- tibble::tibble(to = ms$months, from = ms_en$months)
   if(type == "shortMonths"){
     x$from <- ms_en$shortMonths

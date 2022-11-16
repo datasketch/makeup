@@ -1,10 +1,33 @@
 
+#' @title makeup_chr
+#'
+#' @description Format numbers for human use
+#'
+#' @param v value to be formatted
+#' @param sample human format to apply in v value
+#' @param format ??
+#'
+#' @return a formatted character value
+#'
+#' @examples
+#'   makeup_chr("A NAME", sample = "hello")
+#'
+#'   makeup_chr("A four word sentence", sample = "Hello Hello")
+#'   makeup_chr(c("A four", " word sentence"), sample = "Hello Hello")
+#'
+#'
+#'
 #' @export
 makeup_chr <- function(v, sample = NULL, format = NULL){
+
   if(!is.null(format)){
+
     available_formats <- c("title","upper","lower","firstupper")
-    if(!format %in% formats)
+
+    if(!format %in% formats){
       stop("format must be one of: ", paste(formats, collapse = ", "))
+    }
+
     fun <- paste0(to, format)
     return(do.call(fun, list(v)))
   }
