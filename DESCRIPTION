@@ -17,7 +17,11 @@ Depends:
     R (>= 3.1)
 Imports: 
     d3.format,
-    lubridate
+    dplyr,
+    htmlwidgets,
+    lubridate,
+    purrr,
+    tibble
 Suggests:
     testthat (>= 2.1.0),
     knitr,
@@ -25,4 +29,4 @@ Suggests:
 Remotes:
     dreamRs/d3.format
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
