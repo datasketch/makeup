@@ -20,7 +20,7 @@ Install the development version of makeup from GitHub with:
 
 ``` r
 #install.packages("devtools")
-#remotes::install_github("datasketch/makeup")
+remotes::install_github("datasketch/makeup")
 ```
 
 ## Example
