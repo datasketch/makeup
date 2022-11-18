@@ -1,5 +1,5 @@
 Package: makeup
-Title: Format vectors.
+Title: Format vectors
 Version: 1.1.0
 Authors@R: 
     person(given = "Juan Pablo",
