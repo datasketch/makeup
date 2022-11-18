@@ -18,22 +18,59 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of makeup is to ...
+## Overview
+
+makeup helps to format number, character and date values in order to make them human readable.
+
+The main function of this package is `makeup()`. It takes a date, number o character value and returns it into a human readable format
+
 
 ## Installation
 
-You can install the released version of makeup from [CRAN](https://CRAN.R-project.org) with:
+Install the development version of makeup from GitHub with:
 
 ``` r
-#install.packages("makeup")
+#install.packages("devtools")
 #remotes::install_github("datasketch/makeup")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows you how this packages work:
 
-```{r example}
-# library(makeup)
-## basic example code
+Let´s load `makeup` package
+
+```{r library}
+library(makeup)
+```
+
+### Making _number_ values human readable
+
+```{r num example}
+x <- c(1234.56, 432141, 0.12)
+
+makeup(x, 
+       sample = "1,432.1")
+```
+
+### Making _character_ values human readable
+
+```{r chr example}
+x <- c("hello", "WoRlD","Hello world")
+
+makeup(x, sample = "down")
+
+makeup(x, sample = "UPPER")
+
+makeup(x, sample = "Title phrase")
+
+makeup(x, sample = "Title Case")
+```
+
+### Making _date_ values human readable
+
+```{r date example}
+x <- as.Date(c("2020-03-05","2020-06-20"))
+
+makeup(x)
 ```
