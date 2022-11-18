@@ -19,7 +19,7 @@ o character value and returns it into a human readable format
 Install the development version of makeup from GitHub with:
 
 ``` r
-#install.packages("devtools")
+# install.packages("devtools")
 remotes::install_github("datasketch/makeup")
 ```
 
