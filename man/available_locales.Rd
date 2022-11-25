@@ -5,8 +5,10 @@
 \alias{available_locales}
 \title{Available locales}
 \format{
-## `available_locales`
+\subsection{\code{available_locales}}{
+
 A vector with 61 values
+}
 }
 \usage{
 available_locales
