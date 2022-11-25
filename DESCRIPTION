@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "jpmarindiaz@gmail.com")
 Maintainer: Juan Pablo Marin Diaz <jpmarindiaz@gmail.com>
-Description: Data types for humans.
+Description: Make character, numeric or date values into humans readable format.
 URL: https://github.com/datasketch/makeup
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -30,3 +30,4 @@ Remotes:
     dreamRs/d3.format
 VignetteBuilder: knitr
 RoxygenNote: 7.2.1
+Roxygen: list(markdown = TRUE)

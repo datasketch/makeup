@@ -1,0 +1,27 @@
+---
+title: "Working with dates"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{working-with-dates}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette teaches you how makeup can help you when working with date values. 
+
+Main makeup functions:
+
+- 
+
+```{r setup}
+library(makeup)
+```
+
+## 
