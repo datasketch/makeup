@@ -6,6 +6,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
+<br>
+
 ## Overview
 
 makeup helps to format number, character and date values in order to
@@ -69,3 +71,6 @@ x <- as.Date(c("2020-03-05","2020-06-20"))
 makeup(x)
 #> [1] "3/5/2020"  "6/20/2020"
 ```
+
+Learn about the many ways to work with formatting dates values in
+`vignette("working-with-dates")`
