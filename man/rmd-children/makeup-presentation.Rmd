@@ -55,3 +55,5 @@ x <- as.Date(c("2020-03-05","2020-06-20"))
 
 makeup(x)
 ```
+
+Learn about the many ways to work with formatting dates values in `vignette("working-with-dates")`
