@@ -1,5 +1,5 @@
 
-### Armo listado de diccionario mundial para:
+### Global dictionary lists for:
 # --> decimal
 # --> thousands
 # --> grouping
@@ -10,7 +10,7 @@ loc_names_num <- basename(tools::file_path_sans_ext(locs_num))
 locs_num <- lapply(locs_num, jsonlite::fromJSON)
 names(locs_num) <- loc_names_num
 
-### Armo listado de diccionario mundial para fechas
+### Setting a global dictionary for date formats
 locs_dtm <- list.files("data-raw/locale-dates", full.names = TRUE)
 loc_names_dtm <- basename(tools::file_path_sans_ext(locs_dtm))
 locs_dtm <- lapply(locs_dtm, jsonlite::fromJSON)
@@ -20,10 +20,10 @@ names(locs_dtm) <- loc_names_dtm
 all(loc_names_dtm %in% loc_names_num)
 loc_names_dtm[!loc_names_dtm %in% loc_names_num]
 
-### Lista con diccionarios disponibles para números y fechas
+### Available locales:
 available_locales <- list(num = loc_names_num, dtm = loc_names_dtm)
 
-### Lista con diccionario mundial de valores para números y fechas
+
 locales <-  list(num = locs_num, dtm = locs_dtm)
 locales <- utils::modifyList(locs_num, locs_dtm)
 
@@ -40,7 +40,7 @@ locales <- purrr::transpose(locales_table)
 available_locales <- locales_table$locale
 names(locales) <- locales_table$locale
 
-### ¿Qué son? Contenedores?
+
 fallbacks <- list(
   "ar-EG" = "ar-*",
   "pt-BR" = "pt-*",
@@ -49,7 +49,7 @@ fallbacks <- list(
   "zh-CN" = "zh-TW"
 )
 
-### ¿Qué son?
+
 sys_fallbacks <- list(
   "ar-EG" = "ar-*",
   "es-ES" = "es-*",
@@ -60,7 +60,7 @@ sys_fallbacks <- list(
 
 high_weights <- c("en-US", "es-ES")
 
-### Diccionario de meses
+### Month dictionary
 locale_month_names <- locales_table |>
   dplyr::select(locale, months, shortMonths) |>
   tidyr::unnest(cols = c(months, shortMonths)) |>

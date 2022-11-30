@@ -6,7 +6,7 @@
 #' @param v value to be formatted
 #' @param sample human format to apply in v value
 #' @param locale locale to use, for example "es-MX" for mexican. See posible values at makeup::available_locales
-#' @param format ??
+#' @param format a character vector of date-time formats. Default is "%-m/%-d/%Y"
 #' @param type kind of value to be formatted: ("num", "dat" or "chr")
 #' @param suffix Character string to append after formatted value
 #' @param prefix Character string to append before formatted value

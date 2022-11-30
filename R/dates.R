@@ -1,20 +1,27 @@
 
 #' @title makeup_dat
 #'
-#' @description Formats dates values for human use
+#' @description Formats date values for human use. You can set an example of how the output is wanted and a certain locale setting.
 #'
-#' @param v value to be formatted
-#' @param sample human format to apply in v value
-#' @param locale locale to use, for example "es-MX" for mexican. See posible values at makeup::available_locales
-#' @param format ??
+#' @param v character value to be formatted
+#' @param sample a character value as an example of how the output is wanted. Days and years must be as numbers.
+#' @param locale character string naming a locale. For example: "es-MX" for mexico locale setting. You can check your default system locale with Sys.getlocale(). See available values for setting up at makeup::available_locales
+#' @param format a character vector of date-time formats. Default is "%-m/%-d/%Y"
 #'
-#' @return a formatted character value
+#' @return a character value with a specific date format
 #' @export
 #'
 #' @examples
 #'
-#'   v <- as.Date("2020-03-04")
+#'   v <- "2020-03-04"
 #'   makeup_dat(v, sample = "Ene 3", locale = "es-CO")
+#'   makeup_dat(v, sample = "Enero 3", locale = "es-CO")
+#'   makeup_dat(v, sample = "Enero 3 2022", locale = "es-CO")
+#'   makeup_dat(v, sample = "2022 Enero 3", locale = "es-CO")
+#'
+#'   ### Sample doesnt' work with day as a text value
+#'   makeup_dat(v, sample = "Tres de Enero", locale = "es-CO")
+#'
 #'
 makeup_dat <- function(v, sample = NULL, locale = NULL, format = NULL){
   if(!lubridate::is.Date(v)){
@@ -94,13 +101,22 @@ d3date2lubridate <- function(date_fmt, marker = '###'){
 
 
 
-#' @title guess_date_fmt
+#' @title Guess a certain date format
 #'
 #' @description guesses date format structure for a given sample
 #'
-#' @param sample character value with a human date format
+#' @param sample a character value for which you want to "guess" the date format
+#' @param locale character string naming a locale. For example: "es-MX" for mexico locale setting. You can check your default system locale with Sys.getlocale(). See available values for setting up at makeup::available_locales
 #'
-#' @param locale ??
+#' @example
+#'
+#' #' ### Getting date format for Brazilian locale setting
+#' sample <- "24 janeiro 2010"
+#' guess_date_fmt(sample, locale = "pt-BR")
+#'
+#' ### Getting date format for Colombian locale setting
+#' sample <- "24 de enero de 2010"
+#' guess_date_fmt(sample, locale = "es-CO")
 #'
 #' @export
 guess_date_fmt <- function(sample, locale = NULL){
