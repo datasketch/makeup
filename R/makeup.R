@@ -100,6 +100,7 @@ makeup_format <- function(sample = NULL, format = NULL, locale = NULL,
 #' @return ??
 #'
 #' @export
+#' @importFrom dstools %||%
 makeup_format_js <- function(sample = NULL, locale = NULL, prefix = "", suffix = "") {
 
   params <- which_num_format(sample)

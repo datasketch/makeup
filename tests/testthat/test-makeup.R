@@ -1,8 +1,27 @@
-# test_that("makeup", {
-#
-#   x <- c("2020-03-05","2020-06-20")
-#   makeup(as.Date(x))
-#
+ test_that("makeup dates", {
+
+   ### Fechas
+   # x <- c("2020-03-05","2020-06-20")
+   # makeup(as.Date(x))
+
+   #locale <- "es-CO"
+
+   v = as.Date("2020-03-04")
+   expect_equal(makeup(v, sample = "3/4/2020"), "03/04/2020")
+
+   expect_equal(makeup(v, sample = "2000-12-31"),as.character(v))
+   # Guess locale from month name PT
+   #expect_equal(makeup_dat(v, sample = "Janeiro 4"), "Março 04") # Fails
+   # Guess locale from month name ES
+   expect_equal(makeup_dat(v, sample = "Junio 4 2011"), "Marzo 04 2020")
+   # Guess locale from month name
+   expect_equal(makeup_dat(v, sample = "4 de junio de 2011"), "04 de marzo de 2020")
+
+   # v <- as.Date("03-04-2020")
+   # makeup(v, locale = "es-MX") # FAILS
+
+})
+
 #   x <- c(1234.56, 432141, 0.12)
 #   makeup(x, sample = "1'432.1")
 #   makeup(x, sample = "1,432.1")
@@ -20,4 +39,4 @@
 #   f <- makeup_format(sample = "abril 3 1900", type = "dat")
 #   f("2020-04-28")
 #
-# })
+

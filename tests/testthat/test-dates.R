@@ -2,15 +2,17 @@ test_that("Guess date formats", {
 
   #library(lubridate)
 
-  sample <- "June 24th 2010"
-
+  #sample <- "June 24th 2010"
   #expect_error(guess_date_fmt(sample, locale = "ru_XX")) # Falla
   #expect_equivalent(guess_date_fmt(sample),"%B %dth %Y") # Falla
+
   sample <- "24 janeiro 2010"
   expect_equivalent(guess_date_fmt(sample, locale = "pt-BR"),"%d %B %Y")
+
   sample <- "24 de enero de 2010"
   expect_equivalent(guess_date_fmt(sample, locale = "es-CO"), "%d de %B de %Y")
-  sample <- "Abr 4"
+
+  #sample <- "Abr 4"
   #expect_equivalent(guess_date_fmt(sample), "%b %d") # Falla
   #expect_equivalent(guess_date_fmt(sample, locale = "es-CO"), "%b %d") # Falla
 

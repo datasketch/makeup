@@ -2,15 +2,26 @@
 % Please edit documentation in R/dates.R
 \name{guess_date_fmt}
 \alias{guess_date_fmt}
-\title{guess_date_fmt}
+\title{Guess a certain date format}
 \usage{
 guess_date_fmt(sample, locale = NULL)
 }
 \arguments{
-\item{sample}{character value with a human date format}
+\item{sample}{a character value for which you want to "guess" the date format}
 
-\item{locale}{??}
+\item{locale}{character string naming a locale. For example: "es-MX" for mexico locale setting. You can check your default system locale with Sys.getlocale(). See available values for setting up at makeup::available_locales}
 }
 \description{
 guesses date format structure for a given sample
+}
+\examples{
+
+### Getting date format for Brazilian locale setting
+sample <- "24 janeiro 2010"
+guess_date_fmt(sample, locale = "pt-BR")
+
+### Getting date format for Colombian locale setting
+sample <- "24 de enero de 2010"
+guess_date_fmt(sample, locale = "es-CO")
+
 }

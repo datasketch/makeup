@@ -19,7 +19,7 @@ makeup(
 
 \item{sample}{human format to apply in v value}
 
-\item{format}{??}
+\item{format}{a character vector of date-time formats. Default is "\%-m/\%-d/\%Y"}
 
 \item{locale}{locale to use, for example "es-MX" for mexican. See posible values at makeup::available_locales}
 

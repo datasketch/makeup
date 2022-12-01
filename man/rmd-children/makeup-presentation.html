@@ -370,7 +370,8 @@ remotes::install_github(&quot;datasketch/makeup&quot;)</code></pre>
 <h2>Example</h2>
 <p>This is a basic example which shows you how this packages work:</p>
 <p>Let´s load <code>makeup</code> package</p>
-<pre class="r"><code>library(makeup)</code></pre>
+<pre class="r"><code>library(makeup)
+library(dstools)</code></pre>
 <div id="making-number-values-human-readable" class="section level3">
 <h3>Making <em>number</em> values human readable</h3>
 <pre class="r"><code>x &lt;- c(1234.56, 432141, 0.12)
@@ -398,6 +399,8 @@ makeup(x, sample = &quot;down&quot;)</code></pre>
 
 makeup(x)</code></pre>
 <pre><code>## [1] &quot;3/5/2020&quot;  &quot;6/20/2020&quot;</code></pre>
+<p>Learn about the many ways to work with formatting dates values in
+<code>vignette(&quot;working-with-dates&quot;)</code></p>
 </div>
 </div>
 

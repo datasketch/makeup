@@ -6,12 +6,12 @@ get_locale <- function(locale){
   # locale <- "es-BO"
   in_available_locales <- locale %in% available_locales
   fallback <- which_locale_fallback(locale)
-  if(!in_available_locales && is.empty(fallback)){
+  if(!in_available_locales && dstools::is.empty(fallback)){
     stop(paste0("Locale or fallback locale not available, must be one of: ",
                 paste(available_locales, collapse = ", ")))
   }
   fallback <- locales[[fallback %||% ""]]
-  locale_list <- removeNulls(locales[[locale]])
+  locale_list <- dstools::removeNulls(locales[[locale]])
   fallback_missing <- fallback[!names(fallback) %in% names(locale_list)]
   utils::modifyList(locale_list %||% list(), fallback_missing %||% list()) # es-BO ok
 

@@ -108,9 +108,9 @@ d3date2lubridate <- function(date_fmt, marker = '###'){
 #' @param sample a character value for which you want to "guess" the date format
 #' @param locale character string naming a locale. For example: "es-MX" for mexico locale setting. You can check your default system locale with Sys.getlocale(). See available values for setting up at makeup::available_locales
 #'
-#' @example
+#' @examples
 #'
-#' #' ### Getting date format for Brazilian locale setting
+#' ### Getting date format for Brazilian locale setting
 #' sample <- "24 janeiro 2010"
 #' guess_date_fmt(sample, locale = "pt-BR")
 #'
@@ -119,6 +119,7 @@ d3date2lubridate <- function(date_fmt, marker = '###'){
 #' guess_date_fmt(sample, locale = "es-CO")
 #'
 #' @export
+#' @importFrom dstools %||%
 guess_date_fmt <- function(sample, locale = NULL){
   message("guess_date_fmt")
   locale <- locale %||% guess_date_locale(sample)
@@ -147,13 +148,13 @@ guess_date_fmt <- function(sample, locale = NULL){
 guess_date_locale <- function(sample){
   stopwords <- c("th","de")
   string <- gsub(paste0("[^a-zA-Z]|",paste0(stopwords,collapse = "|")),"", sample)
-  if(is.empty(string)) return()
+  if(dstools::is.empty(string)) return()
   months <- locale_month_names
   months_match <- grepl(string,months$months, ignore.case = TRUE)
   # short_months_match <- grepl(string,months$shortMonths, ignore.case = TRUE)
   # months_match <- months_match | short_months_match
   guess <- months$locale[months_match]
-  if(is.empty(guess)) return()
+  if(dstools::is.empty(guess)) return()
   guess[1]
 }
 

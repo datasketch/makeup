@@ -7,23 +7,30 @@
 makeup_dat(v, sample = NULL, locale = NULL, format = NULL)
 }
 \arguments{
-\item{v}{value to be formatted}
+\item{v}{character value to be formatted}
 
-\item{sample}{human format to apply in v value}
+\item{sample}{a character value as an example of how the output is wanted. Days and years must be as numbers.}
 
-\item{locale}{locale to use, for example "es-MX" for mexican. See posible values at makeup::available_locales}
+\item{locale}{character string naming a locale. For example: "es-MX" for mexico locale setting. You can check your default system locale with Sys.getlocale(). See available values for setting up at makeup::available_locales}
 
-\item{format}{??}
+\item{format}{a character vector of date-time formats. Default is "\%-m/\%-d/\%Y"}
 }
 \value{
-a formatted character value
+a character value with a specific date format
 }
 \description{
-Formats dates values for human use
+Formats date values for human use. You can set an example of how the output is wanted and a certain locale setting.
 }
 \examples{
 
-  v <- as.Date("2020-03-04")
+  v <- "2020-03-04"
   makeup_dat(v, sample = "Ene 3", locale = "es-CO")
+  makeup_dat(v, sample = "Enero 3", locale = "es-CO")
+  makeup_dat(v, sample = "Enero 3 2022", locale = "es-CO")
+  makeup_dat(v, sample = "2022 Enero 3", locale = "es-CO")
+
+  ### Sample doesnt' work with day as a text value
+  makeup_dat(v, sample = "Tres de Enero", locale = "es-CO")
+
 
 }

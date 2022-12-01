@@ -18,16 +18,19 @@ Depends:
 Imports: 
     d3.format,
     dplyr,
+    dstools (>= 0.1.0),
     htmlwidgets,
     lubridate,
     purrr,
-    tibble
+    tibble,
+    dstools
 Suggests:
     testthat (>= 2.1.0),
     knitr,
     rmarkdown
-Remotes:
+Remotes: 
     dreamRs/d3.format
+Additional_repositories: http://pablotis.github.io/drat
 VignetteBuilder: knitr
 RoxygenNote: 7.2.1
 Roxygen: list(markdown = TRUE)

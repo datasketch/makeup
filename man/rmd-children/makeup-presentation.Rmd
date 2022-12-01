@@ -23,6 +23,7 @@ Let´s load `makeup` package
 
 ```{r library}
 library(makeup)
+library(dstools)
 ```
 
 ### Making _number_ values human readable

@@ -25,13 +25,13 @@ test_that("Fallbacks work", {
   expect_equal(bo$dateTime, mx$dateTime)
 
 
-  expect_equal(get_locale("es-ES"),removeNulls(makeup:::locales[["es-ES"]]))
-  expect_equal(get_locale("es-MX"),removeNulls(makeup:::locales[["es-MX"]]))
+  expect_equal(get_locale("es-ES"),dstools::removeNulls(makeup:::locales[["es-ES"]]))
+  expect_equal(get_locale("es-MX"),dstools::removeNulls(makeup:::locales[["es-MX"]]))
 
   # Without fallback
   # OJO... need to removeNulls
-  expect_equal(get_locale("zh-CN"), removeNulls(makeup:::locales[["zh-CN"]]))
+  expect_equal(get_locale("zh-CN"), dstools::removeNulls(makeup:::locales[["zh-CN"]]))
 
-  expect_equal(get_locale("en-US"), removeNulls(makeup:::locales[["en-US"]]))
+  expect_equal(get_locale("en-US"), dstools::removeNulls(makeup:::locales[["en-US"]]))
 
 })

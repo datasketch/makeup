@@ -24,8 +24,8 @@ makeup_chr <- function(v, sample = NULL, format = NULL){
 
     available_formats <- c("title","upper","lower","firstupper")
 
-    if(!format %in% formats){
-      stop("format must be one of: ", paste(formats, collapse = ", "))
+    if(!format %in% available_formats){
+      stop("format must be one of: ", paste(available_formats, collapse = ", "))
     }
 
     fun <- paste0(to, format)
