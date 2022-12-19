@@ -1,5 +1,28 @@
 
+#' @title makeup_dat
+#'
+#' @description Formats date values for human use. You can set an example of how the output is wanted and a certain locale setting.
+#'
+#' @param v character value to be formatted
+#' @param sample a character value as an example of how the output is wanted. Days and years must be as numbers.
+#' @param locale character string naming a locale. For example: "es-MX" for mexico locale setting. You can check your default system locale with Sys.getlocale(). See available values for setting up at makeup::available_locales
+#' @param format a character vector of date-time formats. Default is "%-m/%-d/%Y"
+#'
+#' @return a character value with a specific date format
 #' @export
+#'
+#' @examples
+#'
+#'   v <- "2020-03-04"
+#'   makeup_dat(v, sample = "Ene 3", locale = "es-CO")
+#'   makeup_dat(v, sample = "Enero 3", locale = "es-CO")
+#'   makeup_dat(v, sample = "Enero 3 2022", locale = "es-CO")
+#'   makeup_dat(v, sample = "2022 Enero 3", locale = "es-CO")
+#'
+#'   ### Sample doesnt' work with day as a text value
+#'   makeup_dat(v, sample = "Tres de Enero", locale = "es-CO")
+#'
+#'
 makeup_dat <- function(v, sample = NULL, locale = NULL, format = NULL){
   if(!lubridate::is.Date(v)){
     v <- lubridate::as_date(v)
@@ -75,7 +98,28 @@ d3date2lubridate <- function(date_fmt, marker = '###'){
   gsub("%-d",paste0(marker,"%d"),date_fmt)
 }
 
+
+
+
+#' @title Guess a certain date format
+#'
+#' @description guesses date format structure for a given sample
+#'
+#' @param sample a character value for which you want to "guess" the date format
+#' @param locale character string naming a locale. For example: "es-MX" for mexico locale setting. You can check your default system locale with Sys.getlocale(). See available values for setting up at makeup::available_locales
+#'
+#' @examples
+#'
+#' ### Getting date format for Brazilian locale setting
+#' sample <- "24 janeiro 2010"
+#' guess_date_fmt(sample, locale = "pt-BR")
+#'
+#' ### Getting date format for Colombian locale setting
+#' sample <- "24 de enero de 2010"
+#' guess_date_fmt(sample, locale = "es-CO")
+#'
 #' @export
+#' @importFrom dstools %||%
 guess_date_fmt <- function(sample, locale = NULL){
   message("guess_date_fmt")
   locale <- locale %||% guess_date_locale(sample)
@@ -104,20 +148,20 @@ guess_date_fmt <- function(sample, locale = NULL){
 guess_date_locale <- function(sample){
   stopwords <- c("th","de")
   string <- gsub(paste0("[^a-zA-Z]|",paste0(stopwords,collapse = "|")),"", sample)
-  if(is.empty(string)) return()
-  months <- makeup:::locale_month_names
+  if(dstools::is.empty(string)) return()
+  months <- locale_month_names
   months_match <- grepl(string,months$months, ignore.case = TRUE)
   # short_months_match <- grepl(string,months$shortMonths, ignore.case = TRUE)
   # months_match <- months_match | short_months_match
   guess <- months$locale[months_match]
-  if(is.empty(guess)) return()
+  if(dstools::is.empty(guess)) return()
   guess[1]
 }
 
 rename_months <- function(fmttd, lang, type){
-  months <- makeup:::locale_month_names
-  ms <- months %>% dplyr::filter(locale == lang)
-  ms_en <- months %>% dplyr::filter(locale == "en-US")
+  months <- locale_month_names
+  ms <- months |> dplyr::filter(.data$locale == lang)
+  ms_en <- months |>  dplyr::filter(.data$locale == "en-US")
   x <- tibble::tibble(to = ms$months, from = ms_en$months)
   if(type == "shortMonths"){
     x$from <- ms_en$shortMonths

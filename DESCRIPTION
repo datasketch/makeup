@@ -1,13 +1,13 @@
 Package: makeup
-Title: Format vectors.
-Version: 1.0.0
+Title: Format vectors
+Version: 1.1.0
 Authors@R: 
     person(given = "Juan Pablo",
            family = "Marin Diaz",
            role = c("aut", "cre"),
            email = "jpmarindiaz@gmail.com")
 Maintainer: Juan Pablo Marin Diaz <jpmarindiaz@gmail.com>
-Description: Data types for humans.
+Description: Make character, numeric or date values into humans readable format.
 URL: https://github.com/datasketch/makeup
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -17,12 +17,20 @@ Depends:
     R (>= 3.1)
 Imports: 
     d3.format,
-    lubridate
+    dplyr,
+    dstools (>= 0.1.0),
+    htmlwidgets,
+    lubridate,
+    purrr,
+    tibble,
+    dstools
 Suggests:
     testthat (>= 2.1.0),
     knitr,
     rmarkdown
-Remotes:
+Remotes: 
     dreamRs/d3.format
+Additional_repositories: http://pablotis.github.io/drat
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
+Roxygen: list(markdown = TRUE)

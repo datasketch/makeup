@@ -15,25 +15,11 @@ knitr::opts_chunk$set(
 
 # makeup
 
+
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of makeup is to ...
+<br>
 
-## Installation
-
-You can install the released version of makeup from [CRAN](https://CRAN.R-project.org) with:
-
-``` r
-#install.packages("makeup")
-#remotes::install_github("datasketch/makeup")
-```
-
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
-# library(makeup)
-## basic example code
+```{r, child = "man/rmd-children/makeup-presentation.Rmd"}
 ```

@@ -1,0 +1,98 @@
+---
+title: "Working with dates"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{working-with-dates}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+options(rmarkdown.html_vignette.check_title = FALSE)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette teaches you how makeup can help you when working with date values. 
+
+```{r setup}
+library(makeup)
+library(dstools)
+```
+
+### Working with samples
+
+One of the principal makeup argument is `sample =`. In it you can set the output date format as you need for your project.
+
+```{r}
+date_value <- as.Date("2020-03-04")
+
+# Example 1
+makeup(v = date_value,
+       sample = "Junio 4 de 2011")
+
+
+# Example 2
+makeup(v = date_value, 
+           sample = "Junio 4 2011")
+
+
+# Example 3
+makeup(v = date_value, 
+       sample = "4 de junio de 2011")
+```
+
+### Working with locale
+
+makeup also supports a wide variety of output format languages by setting `locale = ` argument from one of the package `available_locales`:
+```{r}
+available_locales
+```
+So, setting the locale argument makeup can work like this:
+```{r}
+# Example 1 - Colombia
+makeup(v = date_value, 
+       locale = "es-CO")
+
+
+# Example 2 - Deutsch - Deutschland
+makeup(v = date_value, 
+       locale = "de-DE")
+
+
+# Example 3 - English-USA
+makeup(v = date_value, 
+       locale = "en-US")
+
+
+# Example 4 - Frenc - France
+makeup(v = date_value, 
+       locale = "fr-FR")
+
+
+# Example 5 - Portuguese - Brazil
+makeup(v = date_value, 
+       locale = "pt-BR")
+```
+
+### Working with format
+
+You can set the output with a particular date `format`. For example, if you need something like: _"March 04 2020"_ you'll have to set the following combination:
+
+- **%B** --> _Unabbreviated month_
+
+- **%d** --> _Day as a number_
+
+- **%Y** --> _4-digit year_
+
+
+and with makeup you can:
+```{r}
+# Example 1: format = "%B %d %Y"
+
+makeup(v = date_value,
+       format = "%B %d %Y")
+```
+

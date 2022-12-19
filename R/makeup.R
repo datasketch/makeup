@@ -1,19 +1,81 @@
 
+#' @title makeup
+#'
+#' @description Formats numbers, strings or dates values for human use
+#'
+#' @param v value to be formatted
+#' @param sample human format to apply in v value
+#' @param locale locale to use, for example "es-MX" for mexican. See posible values at makeup::available_locales
+#' @param format a character vector of date-time formats. Default is "%-m/%-d/%Y"
+#' @param type kind of value to be formatted: ("num", "dat" or "chr")
+#' @param suffix Character string to append after formatted value
+#' @param prefix Character string to append before formatted value
+#'
+#' @return a formatted character value
+#'
+#' @examples
+#' x <- c(1234.56, 432141, 0.12)
+#'
+#' makeup(x, sample = "1'432.1")
+#' makeup(x, sample = "1,432.1")
+#' makeup(x, sample = "10k")
+#' makeup(x, sample = "10%")
+#'
 #' @export
 makeup <- function(v, sample = NULL, format = NULL, locale = NULL,
-                   type = c("num","dat","chr"), suffix = "", prefix = ""){
-  if(lubridate::is.Date(v) || type == "dat"){
+                   type = NULL, suffix = "", prefix = ""){
+
+  # assertthat::assert_that(!is.null(type), msg = "A type value ('dat' for Date, 'chr' for character or 'num' for number) must be indicated")
+
+  if(is.null(type)){
+    if(lubridate::is.Date(v)){
+      type <- "dat"
+    } else if(is.character(v)){
+      type <- "chr"
+    } else if(is.numeric(v)){
+      type <- "num"
+    }
+  }
+
+  if(type == "dat"){
     return(makeup_dat(v, sample = sample, locale = locale, format = format))
   }
-  if(is.character(v) || type == "chr"){
+
+  if(type == "chr"){
     return(makeup_chr(v, sample = sample, format = format))
   }
-  if(is.numeric(v) || type == "num"){
+
+  if(type == "num"){
     return(makeup_num(v, sample = sample, locale = locale, format = format, suffix = suffix, prefix = prefix))
   }
 
 }
 
+
+
+
+
+#' @title makeup_format
+#'
+#' @description Creates a format sample to be applied to a value
+#'
+#' @param sample human format to apply in v value
+#' @param locale locale to use, for example "es-MX" for mexican. See posible values at makeup::available_locales
+#' @param format ??
+#' @param type kind of value to be formatted: ("num", "dat" or "chr")
+#' @param suffix Character string to append after formatted value
+#' @param prefix Character string to append before formatted value
+#'
+#' @return a formatted character value
+#'
+#' @examples
+#'
+#'  f <- makeup_format(sample = "3 de abril 1900")
+#'  f(as.Date("2020-04-28"))
+#'  f <- makeup_format(sample = "abril 3 1900", type = "dat")
+#'  f("2020-04-28")
+#'
+#' @return a function
 #' @export
 makeup_format <- function(sample = NULL, format = NULL, locale = NULL,
                           type = "", suffix = "", prefix = ""){
@@ -24,7 +86,21 @@ makeup_format <- function(sample = NULL, format = NULL, locale = NULL,
 }
 
 
+
+
+#' @title makeup_format_js
+#'
+#' @description ??
+#'
+#' @param sample human format to apply in v value
+#' @param locale locale to use, for example "es-MX" for mexican. See posible values at makeup::available_locales
+#' @param prefix Character string to append before formatted value
+#' @param suffix Character string to append after formatted value
+#'
+#' @return ??
+#'
 #' @export
+#' @importFrom dstools %||%
 makeup_format_js <- function(sample = NULL, locale = NULL, prefix = "", suffix = "") {
 
   params <- which_num_format(sample)
