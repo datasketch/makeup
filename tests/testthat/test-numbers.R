@@ -48,6 +48,8 @@ test_that("Format numbers", {
   expect_equal(makeup_num(1234.56, sample = sample), sample)
   sample <- "1'234,56"
   expect_equal(makeup_num(1234.56, sample = sample), sample)
+  sample <- "1'234,56"
+  expect_equal(makeup_num(1234.56, sample = sample, si_prefix = TRUE), "1,23K")
   # TODO implement millions separators
   # format <- "1'000,234.56"
   # expect_equal(makeup_num(1000234.56, format = format), format) # "1,000,234.56"

@@ -32,5 +32,5 @@ Remotes:
     dreamRs/d3.format
 Additional_repositories: http://pablotis.github.io/drat
 VignetteBuilder: knitr
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)

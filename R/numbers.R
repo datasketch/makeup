@@ -1,22 +1,26 @@
-
-#' @title makeup_num
+#' Format a numeric vector with custom prefixes and suffixes
 #'
-#' @description Formats numbers values for human use
+#' This function formats a numeric vector with custom prefixes and suffixes, and optionally with SI prefixes such as "k" for kilo and "M" for mega. The function uses the `scales` and `d3.format` packages to format the values with custom separators, number of decimal places, and locale settings.
 #'
-#' @param v value to be formatted
-#' @param sample human format to apply in v value
-#' @param locale locale to use, for example "es-MX" for mexican. See posible values at available_locales
-#' @param format ??
-#' @param prefix Character string to append before formatted value
-#' @param suffix string to append after formatted value
+#' @param v A numeric vector to format.
+#' @param sample A sample vector with the same data type and range as \code{v} to use as a reference for the formatting settings. If not specified, default formatting settings will be used.
+#' @param locale A character string specifying the locale settings to use. If not specified, the default locale will be used.
+#' @param prefix A character string to prepend to each formatted value.
+#' @param suffix A character string to append to each formatted value.
+#' @param si_prefix A logical value indicating whether to use SI prefixes such as "k" and "M" to format the values. If \code{TRUE}, the values will be formatted with SI prefixes. If \code{FALSE}, standard formatting will be used.
+#' @param scale A numeric value indicating the scale factor to apply when using SI prefixes. For example, a value of 1000 would use "k" for values above 1000, "M" for values above 1,000,000, etc.
 #'
-#' @return a formatted character value
+#' @return A character vector of formatted values.
+#'
+#' @importFrom scales label_number cut_short_scale
+#' @importFrom d3.format d3.format
+#' @export
 #'
 #' @examples
-#'  makeup_num(c(0.1, 0.5), "100%")
-#'
-#' @export
-makeup_num <- function(v, sample = NULL, locale = NULL, format = NULL, prefix = "", suffix = ""){
+#' makeup_num(1000000, sample = "1234", si_prefix = TRUE)
+makeup_num <- function(v, sample = NULL, locale = NULL,
+                       prefix = "", suffix = "",
+                       si_prefix = FALSE, scale = 1){
 
   params <- which_num_format(sample) %||% list(specifier = ",")
 
@@ -24,13 +28,19 @@ makeup_num <- function(v, sample = NULL, locale = NULL, format = NULL, prefix = 
     v <- round(v, params$separators$n_decimal)
   }
 
+  if (si_prefix) {
+  ac <- NULL
+  if (params$separators$n_decimal != 0) {
+      ac <- as.numeric(paste0("0.", paste0(rep(0, params$separators$n_decimal - 1), collapse = ""), 1))
+    }
+  f <- label_number(si_prefix = si_prefix, accuracy = ac, scale = scale, scale_cut = cut_short_scale())
+  } else {
   if(is.character(locale)){
     locale <- get_locale(locale)[c("decimal", "thousands")]
   }
-
   locale <- utils::modifyList(params$separators %||% list(), locale %||% list())
-  # locale <- locale[c("decimal", "thousands")]
   f <- d3.format::d3.format(params$specifier, locale = locale, prefix = prefix, suffix = suffix)
+  }
   f(v)
 }
 

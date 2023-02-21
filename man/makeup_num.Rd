@@ -2,37 +2,39 @@
 % Please edit documentation in R/numbers.R
 \name{makeup_num}
 \alias{makeup_num}
-\title{makeup_num}
+\title{Format a numeric vector with custom prefixes and suffixes}
 \usage{
 makeup_num(
   v,
   sample = NULL,
   locale = NULL,
-  format = NULL,
   prefix = "",
-  suffix = ""
+  suffix = "",
+  si_prefix = FALSE,
+  scale = 1
 )
 }
 \arguments{
-\item{v}{value to be formatted}
+\item{v}{A numeric vector to format.}
 
-\item{sample}{human format to apply in v value}
+\item{sample}{A sample vector with the same data type and range as \code{v} to use as a reference for the formatting settings. If not specified, default formatting settings will be used.}
 
-\item{locale}{locale to use, for example "es-MX" for mexican. See posible values at available_locales}
+\item{locale}{A character string specifying the locale settings to use. If not specified, the default locale will be used.}
 
-\item{format}{??}
+\item{prefix}{A character string to prepend to each formatted value.}
 
-\item{prefix}{Character string to append before formatted value}
+\item{suffix}{A character string to append to each formatted value.}
 
-\item{suffix}{string to append after formatted value}
+\item{si_prefix}{A logical value indicating whether to use SI prefixes such as "k" and "M" to format the values. If \code{TRUE}, the values will be formatted with SI prefixes. If \code{FALSE}, standard formatting will be used.}
+
+\item{scale}{A numeric value indicating the scale factor to apply when using SI prefixes. For example, a value of 1000 would use "k" for values above 1000, "M" for values above 1,000,000, etc.}
 }
 \value{
-a formatted character value
+A character vector of formatted values.
 }
 \description{
-Formats numbers values for human use
+This function formats a numeric vector with custom prefixes and suffixes, and optionally with SI prefixes such as "k" for kilo and "M" for mega. The function uses the \code{scales} and \code{d3.format} packages to format the values with custom separators, number of decimal places, and locale settings.
 }
 \examples{
- makeup_num(c(0.1, 0.5), "100\%")
-
+makeup_num(1000000, sample = "1234", si_prefix = TRUE)
 }
