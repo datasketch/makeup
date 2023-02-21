@@ -11,7 +11,8 @@ makeup(
   locale = NULL,
   type = NULL,
   suffix = "",
-  prefix = ""
+  prefix = "",
+  si_prefix = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ makeup(
 \item{suffix}{Character string to append after formatted value}
 
 \item{prefix}{Character string to append before formatted value}
+
+\item{si_prefix}{A logical value indicating whether to use SI prefixes such as "k" and "M" to format the values. If \code{TRUE}, the values will be formatted with SI prefixes. If \code{FALSE}, standard formatting will be used.}
 }
 \value{
 a formatted character value
@@ -40,7 +43,7 @@ x <- c(1234.56, 432141, 0.12)
 
 makeup(x, sample = "1'432.1")
 makeup(x, sample = "1,432.1")
-makeup(x, sample = "10k")
+makeup(x, sample = "10.8", si_prefix = TRUE)
 makeup(x, sample = "10\%")
 
 }

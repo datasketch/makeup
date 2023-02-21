@@ -10,6 +10,7 @@
 #' @param type kind of value to be formatted: ("num", "dat" or "chr")
 #' @param suffix Character string to append after formatted value
 #' @param prefix Character string to append before formatted value
+#' @param si_prefix A logical value indicating whether to use SI prefixes such as "k" and "M" to format the values. If \code{TRUE}, the values will be formatted with SI prefixes. If \code{FALSE}, standard formatting will be used.
 #'
 #' @return a formatted character value
 #'
@@ -18,12 +19,12 @@
 #'
 #' makeup(x, sample = "1'432.1")
 #' makeup(x, sample = "1,432.1")
-#' makeup(x, sample = "10k")
+#' makeup(x, sample = "10.8", si_prefix = TRUE)
 #' makeup(x, sample = "10%")
 #'
 #' @export
 makeup <- function(v, sample = NULL, format = NULL, locale = NULL,
-                   type = NULL, suffix = "", prefix = ""){
+                   type = NULL, suffix = "", prefix = "", si_prefix = FALSE){
 
   # assertthat::assert_that(!is.null(type), msg = "A type value ('dat' for Date, 'chr' for character or 'num' for number) must be indicated")
 
@@ -46,7 +47,7 @@ makeup <- function(v, sample = NULL, format = NULL, locale = NULL,
   }
 
   if(type == "num"){
-    return(makeup_num(v, sample = sample, locale = locale, format = format, suffix = suffix, prefix = prefix))
+    return(makeup_num(v, sample = sample, locale = locale, suffix = suffix, prefix = prefix, si_prefix = si_prefix))
   }
 
 }

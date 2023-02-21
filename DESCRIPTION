@@ -2,16 +2,12 @@ Package: makeup
 Title: Format vectors
 Version: 1.1.0
 Authors@R: 
-    person(given = "Juan Pablo",
-           family = "Marin Diaz",
-           role = c("aut", "cre"),
-           email = "jpmarindiaz@gmail.com")
+    person("Juan Pablo", "Marin Diaz", , "jpmarindiaz@gmail.com", role = c("aut", "cre"))
 Maintainer: Juan Pablo Marin Diaz <jpmarindiaz@gmail.com>
-Description: Make character, numeric or date values into humans readable format.
-URL: https://github.com/datasketch/makeup
+Description: Make character, numeric or date values into humans readable
+    format.
 License: MIT + file LICENSE
-Encoding: UTF-8
-LazyData: true
+URL: https://github.com/datasketch/makeup
 BugReports: https://github.com/datasketch/makeup/issues
 Depends:
     R (>= 3.1)
@@ -22,15 +18,19 @@ Imports:
     htmlwidgets,
     lubridate,
     purrr,
+    scales,
     tibble,
-    dstools
+    utils
 Suggests:
-    testthat (>= 2.1.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 2.1.0)
+VignetteBuilder: 
+    knitr
 Remotes: 
     dreamRs/d3.format
 Additional_repositories: http://pablotis.github.io/drat
-VignetteBuilder: knitr
-RoxygenNote: 7.2.3
+Encoding: UTF-8
+LazyData: true
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
