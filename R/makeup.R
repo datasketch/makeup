@@ -88,39 +88,60 @@ makeup_format <- function(sample = NULL, format = NULL, locale = NULL,
 
 
 
-#' @title makeup_format_js
+#' Create a JavaScript function for formatting numbers in Highcharts
 #'
-#' @description ??
+#' This function creates a JavaScript function that can be used to format numbers
+#' in Highcharts with custom prefixes and suffixes, and optionally with SI prefixes
+#' such as "k" for kilo and "M" for mega. The function uses the `which_num_format()`
+#' and `guess_specifier()` functions to determine the appropriate formatting settings
+#' based on a sample vector and locale settings.
 #'
-#' @param sample human format to apply in v value
-#' @param locale locale to use, for example "es-MX" for mexican. See posible values at makeup::available_locales
-#' @param prefix Character string to append before formatted value
-#' @param suffix Character string to append after formatted value
+#' @param sample A sample vector with the same data type and range as the data to be plotted, to use as a reference for the formatting settings. If not specified, default formatting settings will be used.
+#' @param locale A character string specifying the locale settings to use. If not specified, the default locale will be used.
+#' @param prefix A character string to prepend to each formatted value.
+#' @param suffix A character string to append to each formatted value.
+#' @param si_prefix A logical value indicating whether to use SI prefixes such as "k" and "M" to format the values. If \code{TRUE}, the values will be formatted with SI prefixes. If \code{FALSE}, standard formatting will be used.
 #'
-#' @return ??
+#' @return A JavaScript function for formatting numbers in Highcharts.
 #'
+#' @importFrom htmlwidgets JS
 #' @export
-#' @importFrom dstools %||%
-makeup_format_js <- function(sample = NULL, locale = NULL, prefix = "", suffix = "") {
+#'
+#' @examples
+#' makeup_format_js(prefix = "$", suffix = " USD")
+#'
+#' @family utility functions
+makeup_format_js <- function(sample = NULL, locale = NULL, prefix = "", suffix = "", si_prefix = FALSE) {
 
   params <- which_num_format(sample)
   locale <- locale %||% "en-US"
   ..format <- guess_specifier(locale)
 
+  if (si_prefix) {
+    f <- JS(paste0("function() {
+                    var ret,
+                        numericSymbols = ['k', 'M', 'G', 'T', 'P', 'E'],
+                        i = 6;
+                    if(this.value >=1000) {
+                        while (i-- && ret === undefined) {
+                            multi = Math.pow(1000, i + 1);
+                            if (this.value >= multi && numericSymbols[i] !== null) {
+                                ret = (this.value / multi) + numericSymbols[i];
+                            }
+                        }
+                    }
+                    return '", prefix,"' + (ret ? ret : this.value) + '", suffix,"';
+                }")
+    )
+  } else {
   if (!is.null(params)) {
    ..format <- paste0(params$separators$n_decimal, ", '",
                       params$separators$decimal, "', '",
                       params$separators$thousands, "') + '")
-  # ..format <-  paste0(params$separators$thousands,
-  #                     params$separators$decimal,
-  #                     params$separators$n_decimal, "f")
-  #locale <- guess_locale(params$separators$decimal, params$separators$thousands)[1]
   }
-
- # f <- d3.format::d3_format_js(specifier = ..format,
- #                              prefix = prefix, suffix = suffix, locale = locale)
-  f <-htmlwidgets::JS(
+  f <- htmlwidgets::JS(
     paste0("function() {return '", prefix, "' + Highcharts.numberFormat(this.value, ", ..format, suffix, "'}")
     )
+  }
  f
 }

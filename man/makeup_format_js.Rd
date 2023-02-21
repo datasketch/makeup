@@ -2,22 +2,39 @@
 % Please edit documentation in R/makeup.R
 \name{makeup_format_js}
 \alias{makeup_format_js}
-\title{makeup_format_js}
+\title{Create a JavaScript function for formatting numbers in Highcharts}
 \usage{
-makeup_format_js(sample = NULL, locale = NULL, prefix = "", suffix = "")
+makeup_format_js(
+  sample = NULL,
+  locale = NULL,
+  prefix = "",
+  suffix = "",
+  si_prefix = FALSE
+)
 }
 \arguments{
-\item{sample}{human format to apply in v value}
+\item{sample}{A sample vector with the same data type and range as the data to be plotted, to use as a reference for the formatting settings. If not specified, default formatting settings will be used.}
 
-\item{locale}{locale to use, for example "es-MX" for mexican. See posible values at makeup::available_locales}
+\item{locale}{A character string specifying the locale settings to use. If not specified, the default locale will be used.}
 
-\item{prefix}{Character string to append before formatted value}
+\item{prefix}{A character string to prepend to each formatted value.}
 
-\item{suffix}{Character string to append after formatted value}
+\item{suffix}{A character string to append to each formatted value.}
+
+\item{si_prefix}{A logical value indicating whether to use SI prefixes such as "k" and "M" to format the values. If \code{TRUE}, the values will be formatted with SI prefixes. If \code{FALSE}, standard formatting will be used.}
 }
 \value{
-??
+A JavaScript function for formatting numbers in Highcharts.
 }
 \description{
-??
+This function creates a JavaScript function that can be used to format numbers
+in Highcharts with custom prefixes and suffixes, and optionally with SI prefixes
+such as "k" for kilo and "M" for mega. The function uses the \code{which_num_format()}
+and \code{guess_specifier()} functions to determine the appropriate formatting settings
+based on a sample vector and locale settings.
 }
+\examples{
+makeup_format_js(prefix = "$", suffix = " USD")
+
+}
+\concept{utility functions}
