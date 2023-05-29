@@ -121,7 +121,6 @@ d3date2lubridate <- function(date_fmt, marker = '###'){
 #' @export
 #' @importFrom dstools %||%
 guess_date_fmt <- function(sample, locale = NULL){
-  message("guess_date_fmt")
   locale <- locale %||% guess_date_locale(sample)
   fallback <- which_locale_sys_fallback(locale)
   locale <- gsub("-","_",fallback %||% locale) %||% "en_US"
@@ -146,11 +145,12 @@ guess_date_fmt <- function(sample, locale = NULL){
 }
 
 guess_date_locale <- function(sample){
+  sample <- sample[!is.na(sample)]
   stopwords <- c("th","de")
   string <- gsub(paste0("[^a-zA-Z]|",paste0(stopwords,collapse = "|")),"", sample)
-  if(dstools::is.empty(string)) return()
+  if(all(unlist(lapply(string, dstools::is.empty)))) return()
   months <- locale_month_names
-  months_match <- grepl(string,months$months, ignore.case = TRUE)
+  months_match <- grepl(string, months$months, ignore.case = TRUE)
   # short_months_match <- grepl(string,months$shortMonths, ignore.case = TRUE)
   # months_match <- months_match | short_months_match
   guess <- months$locale[months_match]

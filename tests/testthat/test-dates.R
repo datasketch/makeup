@@ -1,5 +1,12 @@
 test_that("Guess date formats", {
 
+
+  sample <- c("2020-04-04", NA)
+  guess_date_locale(sample)
+
+  sample <- c("2020-04-04", NA, "2024-05-07")
+  guess_date_locale(sample)
+
   #library(lubridate)
 
   #sample <- "June 24th 2010"
