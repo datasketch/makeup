@@ -29,6 +29,7 @@ makeup_chr <- function(v, sample = NULL, format = NULL){
     }
 
     fun <- paste0(to, format)
+
     return(do.call(fun, list(v)))
   }
   match_caps(v, sample)
@@ -70,8 +71,7 @@ tofirstupper <- function(x) {
 # https://stackoverflow.com/questions/15776732/how-to-convert-a-vector-of-strings-to-title-case
 
 totitle <- function(str){
-  re_from <- "\\b([[:lower:]])([[:lower:]]+)"
-  gsub(re_from, "\\U\\1\\L\\2" ,tolower(str), perl=TRUE)
+  stringi::stri_trans_totitle(str)
 }
 
 
