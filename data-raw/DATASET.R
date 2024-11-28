@@ -1,10 +1,23 @@
 
+
+
+library(cldrr)
+
+cldr_months <- cldr_months()
+
+
 ### Global dictionary lists for:
 # --> decimal
 # --> thousands
 # --> grouping
 # --> currency
 # --> numerals
+
+
+
+
+
+
 locs_num <- list.files("data-raw/locale-numbers", full.names = TRUE)
 loc_names_num <- basename(tools::file_path_sans_ext(locs_num))
 locs_num <- lapply(locs_num, jsonlite::fromJSON)
