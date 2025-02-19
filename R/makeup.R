@@ -117,6 +117,7 @@ makeup_format_js <- function(sample = NULL, locale = NULL, prefix = "", suffix =
   params <- which_num_format(sample)
   locale <- locale %||% "en-US"
   ..format <- guess_specifier(locale)
+  f <- NULL
 
   if (si_prefix) {
     f <- JS(paste0("function() {
